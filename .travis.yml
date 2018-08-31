@@ -8,8 +8,9 @@ after_success:
   - npm i -g firebase-ci
   - cd functions
   - npm install
-  - cd ../signage
+  - cd ../
   - npm run generate
+  - cd ./signage
   - firebase-ci deploy
 branches:
   only:
