@@ -3,13 +3,12 @@ node_js:
   - 10.6.0
 install:
   - npm install -g firebase-tools
-  - npm i nuxt
+  - npm i -g nuxt
 after_success:
   - npm i -g firebase-ci
   - cd functions
   - npm install
-  - cd ../
-  - cd signage
+  - cd ../signage
   - npm run generate
   - firebase-ci deploy
 branches:
