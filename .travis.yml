@@ -9,8 +9,8 @@ after_success:
   - cd functions
   - npm install
   - cd ../
+  - cd signage
   - npm run generate
-  - cd ./signage
   - firebase-ci deploy
 branches:
   only:
