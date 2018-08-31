@@ -6,9 +6,7 @@ install:
   - npm i nuxt
 after_success:
   - npm i -g firebase-ci
-  - cd functions
   - npm install
-  - cd ../
   - npm run generate
   - firebase-ci deploy
 branches:
