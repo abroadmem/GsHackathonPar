@@ -1,6 +1,6 @@
-# signage
+# GsHackathonPar
 
-> My premium Nuxt.js project
+> My finest Nuxt.js project
 
 ## Build Setup
 

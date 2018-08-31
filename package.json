@@ -1,7 +1,7 @@
 {
-  "name": "signage",
+  "name": "GsHackathonPar",
   "version": "1.0.0",
-  "description": "My premium Nuxt.js project",
+  "description": "My finest Nuxt.js project",
   "author": "shiba",
   "private": true,
   "scripts": {
