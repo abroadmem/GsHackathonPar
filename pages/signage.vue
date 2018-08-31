@@ -22,6 +22,7 @@
     v-layout(row wrap grid-list-sm)
         v-flex(
             v-for="(flex,index) in contents"
+            :key="flex[index]"
             :class="flex.layout.col"
             ) 
             v-img(
