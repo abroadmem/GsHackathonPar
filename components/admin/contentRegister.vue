@@ -166,9 +166,10 @@ export default {
             // console.log(time);
         },
         sendMail(id, address) {
-        const sendMail = ff.httpsCallable('sendMail')
+            console.log({id}, {address})
+            const sendMail = ff.httpsCallable('sendMail')
             let parent = this
-            sendResults({destination: 'allscience1023@gmail.com'}).then(function (result) {
+            sendResults({destination: address, QRcode: id}).then(function (result) {
                 parent.snackbar = true
             })
         }
