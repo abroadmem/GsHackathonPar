@@ -45,8 +45,11 @@ export default {
       }
     },
     onDecode(content) {
+      let userID = content;
+      this.$firebase.database().ref('/users/'+userID+'/allNightFlg/').set(true)
       this.message = '確認しました！';
       this.isCheck = true
+      
     //   this.dialog = false;
     }
   }
