@@ -1,9 +1,8 @@
 <template lang="pug">
-  v-app
+  div
     v-toolbar(
       color="blue"
       flat
-
       dark
       )
       v-spacer
@@ -16,7 +15,9 @@
             flat
             @click="logout")
             v-icon(mx-3) logout
+    nuxt-child
     content-register
+
 </template>
 
 <script>
