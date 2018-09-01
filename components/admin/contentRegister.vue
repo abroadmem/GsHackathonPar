@@ -29,9 +29,16 @@
                 @click="addUser"
             ) ユーザー登録
         div(v-if="userResisterFlg" style="width:1000px;margin:50px auto;")
-            li(
-                v-for="(key, val) in users"
-            ) {{key}}
+            <v-data-table :headers="user_headers" :items="users">
+                <template slot="items" slot-scope="row" >
+                    <td>{{ row.item.name }}</td>
+                    <td>{{ row.item.type }}</td>
+                    <td>{{ row.item.term }}</td>
+                    <td>{{ row.item.allNightFlg }}</td>
+                    <td>{{ row.item.attendFlg }}</td>
+                    <td>{{ row.item.resisterTime }}</td>
+                </template>
+            </v-data-table>
 </template>
 
 <script>
@@ -55,7 +62,16 @@ const userData = (name, type, term, allNightFlg, attendFlg, lifeFlg) => {
 export default {
     data() {
         return {
-            users: {},
+            user_headers: [
+                { text: "名前", value: "name" },
+                { text: "種類", value: "type" },
+                { text: "期", value: "term" },
+                { text: "オールナイト", value: "allNightFlg" },
+                { text: "出席", value: "attendFlg" },
+                { text: "登録日", value: "resisterTime" },
+            ],
+            users: [],
+            users_keys: [],
             name:null,
             type:null,
             term:null,
@@ -73,15 +89,12 @@ export default {
             this.userResisterFlg = !this.userResisterFlg;
         },
         addUser() {
-            this.$firebase.database().ref(ref).push(userData(this.name, this.type, this.term, false, false, false), res => {
-                console.log(res);
+            this.$firebase.database().ref(ref).push(userData(this.name, this.type, this.term, false, false, false), err => {
+                console.log(err);
             });
-            // console.log()
         },
         readUser() {
             this.$firebase.database().ref(ref).once('value', snap => {
-                this.users = snap.val();
-                console.log(this.users)
             });
         },
         deleteUser() {
@@ -93,7 +106,8 @@ export default {
     },
     mounted () {
         this.$firebase.database().ref(ref).once('value', res => {
-            console.log(res.val());
+            this.users = Object.values(res.val());
+            this.users_keys = Object.keys(res.val());
         });
     }
 };
