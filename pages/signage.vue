@@ -6,7 +6,7 @@
       fixed
       )
       v-btn(
-        color="#eee" 
+        color="#eee"
         flat
         icon
         to="/")
@@ -24,7 +24,7 @@
             v-for="(flex,index) in contents"
             :key="flex[index]"
             :class="flex.layout.col"
-            ) 
+            )
             v-img(
                 v-if="flex.layout.media"
                 :src="flex.layout.media"
@@ -85,7 +85,7 @@ export default {
             this.$refs.cameraDialogOpen.open()
         }
     }
-    
+
 }
 </script>
 

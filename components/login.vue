@@ -1,21 +1,22 @@
 <template lang="pug">
     v-container
-        div(style="width:300px;margin:50px auto;")
-            v-text-field(
-                label="メールアドレス"
-                v-model="email"
-                type="email"
-                )
-            v-text-field(
-                label="パスワード"
-                v-model="password"
-                type="password"
-                )
-            v-btn(
-                depressed
-                color="info"
-                @click="onClick"
-            ) ログイン
+        v-responsive
+            div(style="width:300px;margin:50px auto;")
+                v-text-field(
+                    label="メールアドレス"
+                    v-model="email"
+                    type="email"
+                    )
+                v-text-field(
+                    label="パスワード"
+                    v-model="password"
+                    type="password"
+                    )
+                v-btn(
+                    depressed
+                    color="info"
+                    @click="onClick"
+                ) ログイン
 </template>
 
 <script>

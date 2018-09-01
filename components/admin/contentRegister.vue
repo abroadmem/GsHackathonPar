@@ -1,15 +1,29 @@
 <template lang="pug">
     v-container
         v-btn(
-            @click="onclick"
+            @click="addCalendar"
         ) カレンダー追加
+        v-btn(
+            @click="addUser"
+        ) ユーザー追加
+
 </template>
 
 <script>
 export default {
     methods:{
-        onclick(){
+        addCalendar(){
             alert('CSVデータを読み込める')
+        },
+        addUser() {
+           console.log(process.env.apiKey)
+           const usersRef = this.$firebase.database().ref('/users')
+           console.log(usersRef)
+        }
+    },
+    data() {
+        return {
+            users: [],
         }
     }
 }

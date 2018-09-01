@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",
+    "@nuxtjs/dotenv": "^1.1.1",
     "@xkeshi/vue-qrcode": "^1.0.0",
     "firebase": "^5.4.2",
     "nuxt": "^1.0.0",

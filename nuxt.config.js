@@ -46,13 +46,23 @@ module.exports = {
   */
   modules: [
     // Doc: https://github.com/nuxt-community/axios-module#usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/dotenv',
   ],
   /*
   ** Axios module configuration
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+  },
+
+  env: {
+      apiKey: process.env.apiKey,
+      authDomain: process.env.authDomain,
+      databaseURL: process.env.databaseURL,
+      projectId: process.env.projectId,
+      storageBucket: process.env.storageBucket,
+      messagingSenderId: process.env.messagingSenderId,
   },
 
   /*
@@ -63,7 +73,7 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
       if (ctx.isServer) {
         config.externals = [
           nodeExternals({
