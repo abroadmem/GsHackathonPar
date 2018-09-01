@@ -11,7 +11,7 @@
                     <div class="sa-placeholder"></div>
                     <div class="sa-fix"></div>
                 </div>
-            </div> 
+            </div>
 </template>
 
 <script>
@@ -34,6 +34,7 @@ export default {
   methods: {
     open() {
       //親コンポーネントのButtonで開く
+      this.isCheck = false;
       this.dialog = true;
       //何らかの処理
       this.video = this.$refs.video;
@@ -45,11 +46,12 @@ export default {
       }
     },
     onDecode(content) {
+      console.log(content)
       let userID = content;
       this.$firebase.database().ref('/users/'+userID+'/allNightFlg/').set(true)
       this.message = '確認しました！';
       this.isCheck = true
-      
+
     //   this.dialog = false;
     }
   }

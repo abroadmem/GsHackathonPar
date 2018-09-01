@@ -87,14 +87,14 @@ function unixTime2ymd(intTime){
     var year  = d.getFullYear();
     var d = new Date( intTime );
     var y = new Date( intTime * 1000 );
-    var year  = y.getFullYear();
+    // var year  = y.getFullYear();
     var month = d.getMonth() + 1;
     var day  = d.getDate();
     var hour = ( '0' + d.getHours() ).slice(-2);
     var min  = ( '0' + d.getMinutes() ).slice(-2);
     var sec   = ( '0' + d.getSeconds() ).slice(-2);
 
-    return( year + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec );
+    return( month + '/' + day + ' ' + hour + ':' + min + ':' + sec );
 }
 
 const ref = 'users/'
@@ -113,6 +113,7 @@ const userData = (name, email, type, term, allNightFlg, attendFlg, lifeFlg) => {
         deleteTime: null
     }
 }
+
 export default {
     data() {
         return {
@@ -139,43 +140,8 @@ export default {
         };
     },
     methods:{
-        toggleCalendar() {
-            this.calendarFlg = !this.calendarFlg;
-            this.userResisterFlg = false
-        },
-        addCalendar(){
-            alert('CSVデータを読み込める');
-        },
-        toggleUser() {
-            this.userResisterFlg = !this.userResisterFlg;
-            this.calendarFlg = false
-        },
-        addUser() {
-            this.$firebase.database().ref(ref).push(userData(this.name, this.email, this.type, this.term, false, false, false), err => {
-                if (err) console.log(err);
-            });
-        },
-        deleteUser(id) {
-            this.$firebase.database().ref(ref).delete(userData(this.name, this.type, this.term, false, false, false), err => {
-                if (err) console.log(err);
-            });
-        },
-        updateUser(id) {
-            console.log(id)
-            // let time = moment()._d;
-            // console.log(time);
-        },
-        sendMail(id, address) {
-            console.log({id}, {address})
-            const sendMail = ff.httpsCallable('sendMail')
-            let parent = this
-            sendResults({destination: address, QRcode: id}).then(function (result) {
-                parent.snackbar = true
-            })
-        }
-    },
-    mounted () {
-        this.$firebase.database().ref(ref).once('value', res => {
+        readUsers() {
+            this.$firebase.database().ref(ref).once('value', res => {
             const values = Object.values(res.val());
             const keys = Object.keys(res.val());
             let users = [];
@@ -199,7 +165,47 @@ export default {
             }
             this.users = users;
             console.log(this.users)
-        });
+            })
+        },
+        toggleCalendar() {
+            this.calendarFlg = !this.calendarFlg;
+            this.userResisterFlg = false
+        },
+        addCalendar(){
+            alert('CSVデータを読み込める');
+        },
+        toggleUser() {
+            this.userResisterFlg = !this.userResisterFlg;
+            this.calendarFlg = false
+        },
+        addUser() {
+            this.$firebase.database().ref(ref).push(userData(this.name, this.email, this.type, this.term, false, false, false), err => {
+                if (err) return;
+                this.readUsers()
+            });
+        },
+        deleteUser(id) {
+            this.$firebase.database().ref(ref).delete(userData(this.name, this.type, this.term, false, false, false), err => {
+                if (err) return;
+            });
+        },
+        updateUser(id) {
+            console.log(id)
+            // let time = moment()._d;
+            // console.log(time);
+        },
+        sendMail(id, address) {
+            console.log({id}, {address})
+            // const sendMail = ff.httpsCallable('sendMail')
+            let parent = this
+            let sendMail = this.$firebase.functions().httpsCallable("sendMail");
+            sendMail({destination: address, QRcode: id}).then(function (result) {
+                parent.snackbar = true
+            })
+        }
+    },
+    mounted () {
+        this.readUsers()
     }
 };
 
