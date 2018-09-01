@@ -10,7 +10,7 @@
         flat
         icon
         to="/signage")
-        v-icon(mx-3) view_quilt
+        v-icon(mx-3) home
     Login
 </template>
 

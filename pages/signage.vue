@@ -84,7 +84,11 @@ export default {
         parentOpenRef(){
             this.$refs.cameraDialogOpen.open()
         }
-    }
+    },
+    mounted() {
+
+        },
+
 
 }
 </script>

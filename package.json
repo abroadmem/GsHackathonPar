@@ -16,7 +16,7 @@
     "@nuxtjs/dotenv": "^1.1.1",
     "@xkeshi/vue-qrcode": "^1.0.0",
     "firebase": "^5.4.2",
-    "nuxt": "^1.0.0",
+    "nuxt": "^1.4.2",
     "vue-qrcode-reader": "^1.1.0",
     "vuetify": "^1.0.19"
   },
