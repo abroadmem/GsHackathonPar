@@ -23,6 +23,11 @@
                 type="name"
             )
             v-text-field(
+                label="メールアドレス"
+                v-model="email"
+                type="email"
+            )
+            v-text-field(
                 label="週末 or 平日"
                 v-model="type"
                 type="type"
@@ -43,6 +48,7 @@
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                 <template slot="items" slot-scope="row" >
                     <td>{{ row.item.name }}</td>
+                    <td>{{ row.item.email }}</td>
                     <td class="text-xs-right">{{ row.item.type }}</td>
                     <td class="text-xs-right">{{ row.item.term }}</td>
                     <td class="text-xs-right">{{ row.item.allNightFlg }}</td>
@@ -61,6 +67,13 @@
                             style="display:flex;margin:auto;"
                             @click="deleteUser(row.item.id)"
                         ) {{ row.item.delete }}
+                    </td>
+                    <td class="text-xs-right">
+                        v-btn(
+                            color="#787496"
+                            style="display:flex;margin:auto;"
+                            @click="sendMail(row.item.id, row.item.email)"
+                        ) {{ row.item.sendMail }}
                     </td>
                 </template>
             </v-data-table>
@@ -85,10 +98,11 @@ function unixTime2ymd(intTime){
 }
 
 const ref = 'users/'
-const userData = (name, type, term, allNightFlg, attendFlg, lifeFlg) => {
+const userData = (name, email, type, term, allNightFlg, attendFlg, lifeFlg) => {
     const date = new Date()
     return  {
         name: name,
+        email: email,
         type: type,
         term: term,
         allNightFlg: allNightFlg,
@@ -104,6 +118,7 @@ export default {
         return {
             user_headers: [
                 { text: "名前", value: "name" },
+                { text: "メールアドレス", value: "email"},
                 { text: "平日or週末", value: "type" },
                 { text: "期", value: "term" },
                 { text: "オールナイト", value: "allNightFlg" },
@@ -111,10 +126,12 @@ export default {
                 { text: "登録日", value: "resisterTime" },
                 { text: "更新", value: "update"},
                 { text: "削除", value: "delete"},
+                { text: "メール", value: "sendMail"}
             ],
             users: [],
             users_keys: [],
             name:null,
+            email:null,
             type:null,
             term:null,
             userResisterFlg: true,
@@ -134,7 +151,7 @@ export default {
             this.calendarFlg = false
         },
         addUser() {
-            this.$firebase.database().ref(ref).push(userData(this.name, this.type, this.term, false, false, false), err => {
+            this.$firebase.database().ref(ref).push(userData(this.name, this.email, this.type, this.term, false, false, false), err => {
                 if (err) console.log(err);
             });
         },
@@ -147,6 +164,13 @@ export default {
             console.log(id)
             // let time = moment()._d;
             // console.log(time);
+        },
+        sendMail(id, address) {
+        const sendMail = ff.httpsCallable('sendMail')
+            let parent = this
+            sendResults({destination: 'allscience1023@gmail.com'}).then(function (result) {
+                parent.snackbar = true
+            })
         }
     },
     mounted () {
@@ -158,6 +182,7 @@ export default {
                 users.push({
                     id: keys[i],
                     name: values[i].name,
+                    email: values[i].email,
                     type: values[i].type,
                     term: values[i].term,
                     allNightFlg: values[i].allNightFlg,
@@ -168,6 +193,7 @@ export default {
                     deleteTime: values[i].deleteTime,
                     delete: "delete",
                     update: "update",
+                    sendMail: "send mail"
                 });
             }
             this.users = users;
