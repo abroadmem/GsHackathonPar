@@ -33,38 +33,38 @@
                 type="term"
             )
             v-btn(
-                depressed
-                color="info"
+                color="#4DB6AC"
                 style="display:flex;margin:auto;"
                 @click="addUser"
             ) ユーザー登録
-        div(v-if="userResisterFlg" style="width:1000px;margin:50px auto;")
-            <v-data-table :headers="user_headers" :items="users">
+
+        <template v-if="userResisterFlg">
+            <v-data-table :headers="user_headers" :items="users" :loading="true" class="elevation-1">
+            <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                 <template slot="items" slot-scope="row" >
                     <td>{{ row.item.name }}</td>
-                    <td>{{ row.item.type }}</td>
-                    <td>{{ row.item.term }}</td>
-                    <td>{{ row.item.allNightFlg }}</td>
-                    <td>{{ row.item.attendFlg }}</td>
-                    <td>{{ row.item.resisterTime }}</td>
-                    <td>
+                    <td class="text-xs-right">{{ row.item.type }}</td>
+                    <td class="text-xs-right">{{ row.item.term }}</td>
+                    <td class="text-xs-right">{{ row.item.allNightFlg }}</td>
+                    <td class="text-xs-right">{{ row.item.attendFlg }}</td>
+                    <td class="text-xs-right">{{ row.item.resisterTime }}</td>
+                    <td class="text-xs-right">
                         v-btn(
-                            depressed
-                            color="primary"
+                            color="#F57F17"
                             style="display:flex;margin:auto;"
                             @click="updateUser(row.item.id)"
                         ) {{ row.item.update }}
                     </td>
-                    <td>
+                    <td class="text-xs-right">
                         v-btn(
-                            depressed
-                            color="info"
+                            color="#2196F3"
                             style="display:flex;margin:auto;"
                             @click="deleteUser(row.item.id)"
                         ) {{ row.item.delete }}
                     </td>
                 </template>
             </v-data-table>
+        </template>
 </template>
 
 <script>
@@ -82,8 +82,8 @@ function unixTime2ymd(intTime){
     var sec   = ( '0' + d.getSeconds() ).slice(-2);
 
     return( year + '/' + month + '/' + day + ' ' + hour + ':' + min + ':' + sec );
-
 }
+
 const ref = 'users/'
 const userData = (name, type, term, allNightFlg, attendFlg, lifeFlg) => {
     const date = new Date()
@@ -104,13 +104,13 @@ export default {
         return {
             user_headers: [
                 { text: "名前", value: "name" },
-                { text: "種類", value: "type" },
+                { text: "平日or週末", value: "type" },
                 { text: "期", value: "term" },
                 { text: "オールナイト", value: "allNightFlg" },
                 { text: "出席", value: "attendFlg" },
                 { text: "登録日", value: "resisterTime" },
-                { text: "削除", value: "delete"},
                 { text: "更新", value: "update"},
+                { text: "削除", value: "delete"},
             ],
             users: [],
             users_keys: [],
@@ -171,6 +171,7 @@ export default {
                 });
             }
             this.users = users;
+            console.log(this.users)
         });
     }
 };
