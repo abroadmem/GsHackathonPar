@@ -8,7 +8,18 @@
       v-spacer
       v-toolbar-items
         v-btn(
+           flat
+           exact
+            to="/admin")
+            v-icon(mx-3) queue
+        v-btn(
+           flat
+           exact
+            to="/admin/alive")
+            v-icon(mx-3) perm_identity
+        v-btn(
             flat
+            target="_blank"
             to="/signage")
             v-icon(mx-3) view_quilt
         v-btn(
@@ -16,18 +27,11 @@
             @click="logout")
             v-icon(mx-3) logout
     nuxt-child
-    content-register
-
 </template>
 
 <script>
-import contentRegister from '~/components/admin/contentRegister';
-
 export default {
   middleware: ['auth'],
-  components: {
-    contentRegister
-  },
   methods: {
     logout() {
       this.$firebase
