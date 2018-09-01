@@ -23,7 +23,8 @@ export default {
         usersCount:40,
         activeCount:0
     };
-  },mounted(){
+  },
+  mounted(){
     const users = [];
     let activeCount = 0;
     for( let i = 1; i < this.usersCount; i++ ){
