@@ -1,13 +1,14 @@
-const firebase = require('firebase/app');
+const firebase = require("firebase/app")
+
 firebase.initializeApp({
-    apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain,
-    databaseURL: process.env.databaseURL,
-    projectId: process.env.projectId,
-    storageBucket: process.env.storageBucket,
-    messagingSenderId: process.env.messagingSenderId,
-});
+	apiKey: process.env.apiKey,
+	authDomain: process.env.authDomain,
+	databaseURL: process.env.databaseURL,
+	projectId: process.env.projectId,
+	storageBucket: process.env.storageBucket,
+	messagingSenderId: process.env.messagingSenderId,
+})
 
 export default ({ store }, inject) => {
-    inject('firebase', firebase)
+	inject("firebase", firebase)
 }

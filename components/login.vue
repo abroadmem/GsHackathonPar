@@ -25,23 +25,23 @@ export default {
         return{
             email:null,
             password:null
-        }
+        };
     },
     methods:{
         onClick(){
             const email = this.email;
             const password = this.password;
             this.$firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(()=>location.href="/admin")
+                .then(()=>location.href='/admin')
                 .catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
-                    alert(errorMessage)
+                    alert(errorMessage);
                 });
         }
     }
-}
+};
 </script>
 
 <style>

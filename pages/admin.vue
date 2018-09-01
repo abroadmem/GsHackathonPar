@@ -16,13 +16,14 @@
             flat
             @click="logout")
             v-icon(mx-3) logout
-    contentRegister
+    content-register
 </template>
 
 <script>
-import contentRegister from "~/components/admin/contentRegister";
+import contentRegister from '~/components/admin/contentRegister';
+
 export default {
-  middleware: ["auth"],
+  middleware: ['auth'],
   components: {
     contentRegister
   },
@@ -32,8 +33,8 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          console.log("ログアウト成功");
-          location.href = "/";
+          console.log('ログアウト成功');
+          location.href = '/';
         });
     }
   }

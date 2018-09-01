@@ -10,18 +10,18 @@ export default {
         return{
             //ダイアログの開閉
             dialog : false
-        }
+        };
     },
     methods:{
         open(){
             //親コンポーネントのButtonで開く
-            this.dialog = true
+            this.dialog = true;
             //何らかの処理
             //VIDEOの起動についてはhttps://qiita.com/nkg/items/be89d8aebda6509ce2e1
             //QRコードの読み込みについてはhttps://qiita.com/TakenoriHirao/items/8906fb01e5bb542dd0f9
         },
     }
-}
+};
 </script>
 
 <style>
