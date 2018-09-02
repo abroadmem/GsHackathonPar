@@ -15,7 +15,7 @@
       v-btn(
         flat
         icon
-        @click="parentOpenRef"
+        @click="parentOpenRef()"
         )
         v-icon camera_front
     onCamera(ref="cameraDialogOpen")
@@ -36,6 +36,15 @@
             .qrcode(v-if="flex.qrvalue")
                 qrcode(:value="flex.qrvalue" :options="{ size: 80 }")
             .alert(v-if="flex.alert") {{ flex.alert }}
+        v-flex(
+            xs3
+        )
+            v-btn(
+                @click="parentOpenRef('allNightFlg',1)"
+            ) All Night申請
+            v-btn(
+                @click="parentOpenRef('allNightFlg',0)"
+            ) All Night退出
 </template>
 
 <script>
@@ -73,7 +82,7 @@ export default {
                 {
                     body:'世界を変えるGEEKになろう',
                     layout:{
-                        col:'xs6 px-0',
+                        col:'xs3 px-0',
                         style:'background:#78b7dc;color:#fff;font-size: 42px;'
                     },
                 },
@@ -81,8 +90,8 @@ export default {
         }
     },
     methods:{
-        parentOpenRef(){
-            this.$refs.cameraDialogOpen.open()
+        parentOpenRef(event,flag){
+            this.$refs.cameraDialogOpen.open(event,flag)
         }
     },
     mounted() {
