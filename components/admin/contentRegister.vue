@@ -44,7 +44,7 @@
             ) ユーザー登録
 
         <template v-if="userResisterFlg">
-            <v-data-table :headers="user_headers" :items="users" :loading="true" class="elevation-1">
+            <v-data-table :headers="user_headers" :items="users" :search="search" :custom-filter="customFilter" class="elevation-2">
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                 <template slot="items" slot-scope="row" >
                     <td>{{ row.item.name }}</td>
@@ -70,6 +70,12 @@
                     </td>
                     <td class="text-xs-right">
                         v-btn(
+                            v-if="row.item.lifeFlg"
+                            color="#ff0000"
+                            style="display:flex;margin:auto;"
+                        ) アクティブ
+                        v-btn(
+                            v-else
                             color="#787496"
                             style="display:flex;margin:auto;"
                             @click="sendMail(row.item.id, row.item.email)"
@@ -135,6 +141,7 @@ export default {
             email:null,
             type:null,
             term:null,
+            search: '',
             userResisterFlg: true,
             calendarFlg: false,
         };
@@ -194,14 +201,18 @@ export default {
             // let time = moment()._d;
             // console.log(time);
         },
-        sendMail(id, address) {
-            console.log({id}, {address})
-            // const sendMail = ff.httpsCallable('sendMail')
-            let parent = this
+        async sendMail(id, address) {
             let sendMail = this.$firebase.functions().httpsCallable("sendMail");
-            sendMail({destination: address, QRcode: id}).then(function (result) {
-                parent.snackbar = true
-            })
+            await sendMail({destination: address, QRcode: id})
+            let newUsers = [...this.users];
+            let user = newUsers.find(x => x.id === id);
+            user.lifeFlg = true;
+            newUsers[user.id] = user;
+            this.users = [...newUsers];
+        },
+        customFilter(items, search, filter) {
+            search = search.toString().toLowerCase()
+            return items.filter(row => filter(row["type"], search));
         }
     },
     mounted () {
