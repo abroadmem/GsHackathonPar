@@ -43,12 +43,12 @@
                 @click="addUser"
             ) ユーザー登録
 
-        <template v-if="calendarFlg">
-            DaySpanVuetify
-        </template>
+        // <template v-if="calendarFlg">
+        //     DaySpanVuetify
+        // </template>
 
         <template v-if="userResisterFlg">
-            <v-data-table :headers="user_headers" :items="users" :search="search" :custom-filter="customFilter" class="elevation-2">
+            <v-data-table :headers="user_headers" :items="users" :search="search" :custom-filter="customFilter" class="elevation-1" hide-actions>
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                 <template slot="items" slot-scope="row" >
                     <td>{{ row.item.name }}</td>

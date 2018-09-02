@@ -40,7 +40,7 @@ export default {
       this.dialog = true;
       //何らかの処理
       this.video = this.$refs.video;
-      this.camerastatus = event;      
+      this.camerastatus = event;
       this.message = "起動中";
       this.Allnightflag = flag;
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -50,21 +50,18 @@ export default {
       }
     },
     onDecode(content) {
-      console.log(content)
       let userID = content;
       this.$firebase.database().ref('/users/'+userID+'/'+this.camerastatus+'/').set(this.Allnightflag)
       let message;
       if(this.camerastatus =='allNight' && this.Allnightflag) message = 'All Night申請を受け付けました！'
-      if(this.camerastatus =='allNight' && !this.Allnightflag) message = 'All Night退出を確認しました！'          
-      if(this.camerastatus !='allNight' ) message = '確認しました！';               
+      if(this.camerastatus =='allNight' && !this.Allnightflag) message = 'All Night退出を確認しました！'
+      if(this.camerastatus !='allNight' ) message = '確認しました！';
       this.message = message
       this.isCheck = true
-      let isCssAnimation = doc.querySelector(".check_mark");
-      isCssAnimation.addEventListener("transitionend", function() {
-        console.log(evt);
-        this.dialog = false
-      });
-    }
+      setTimeout( () => {
+        this.dialog =  false
+      }, 3000);
+    },
   }
 };
 </script>
