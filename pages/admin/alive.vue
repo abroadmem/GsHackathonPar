@@ -1,18 +1,18 @@
 <template lang="pug">
-div
-    v-container.text-xs-center {{ activeCount }} 名 / {{ usersCount }} 名中
-    v-layout(row wrap)
-        v-flex.text-xs-center(
-            v-for="(key,i) in users"
-            xs2
-            py-1
-            )
-            v-progress-circular(
-                size="50"
-                :value="key.value"
-                :width="5"
-                :color="key.color"
-                ) {{key.id}}
+    div
+        v-container.text-xs-center {{ activeCount }} 名 / {{ usersCount }} 名中
+        v-layout(row wrap)
+            v-flex.text-xs-center(
+                v-for="(key,i) in users"
+                xs2
+                py-1
+                )
+                v-progress-circular(
+                    size="50"
+                    :value="key.value"
+                    :width="5"
+                    :color="key.color"
+                    ) {{key.id}}
 </template>
 
 <script>

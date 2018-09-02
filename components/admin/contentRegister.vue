@@ -43,6 +43,10 @@
                 @click="addUser"
             ) ユーザー登録
 
+        <template v-if="calendarFlg">
+            DaySpanVuetify
+        </template>
+
         <template v-if="userResisterFlg">
             <v-data-table :headers="user_headers" :items="users" :search="search" :custom-filter="customFilter" class="elevation-2">
             <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
@@ -51,8 +55,14 @@
                     <td>{{ row.item.email }}</td>
                     <td class="text-xs-right">{{ row.item.type }}</td>
                     <td class="text-xs-right">{{ row.item.term }}</td>
-                    <td class="text-xs-right">{{ row.item.allNightFlg }}</td>
-                    <td class="text-xs-right">{{ row.item.attendFlg }}</td>
+                    <td class="text-xs-right">
+                            span( v-if="row.item.allNightFlg===true" style="color:red;") ○
+                            span( v-else) ×
+                    </td>
+                    <td class="text-xs-right">
+                            span( v-if="row.item.attendFlg===true" style="color:red;") ○
+                            span(v-else) ×
+                    </td>
                     <td class="text-xs-right">{{ row.item.resisterTime }}</td>
                     <td class="text-xs-right">
                         v-btn(
@@ -87,6 +97,7 @@
 </template>
 
 <script>
+import DaySpanVuetify from 'dayspan-vuetify'
 
 function unixTime2ymd(intTime){
     var d = new Date( intTime );
@@ -121,6 +132,9 @@ const userData = (name, email, type, term, allNightFlg, attendFlg, lifeFlg) => {
 }
 
 export default {
+    components:[
+        DaySpanVuetify
+    ],
     data() {
         return {
             user_headers: [
@@ -209,6 +223,7 @@ export default {
             user.lifeFlg = true;
             newUsers[user.id] = user;
             this.users = [...newUsers];
+            this.$firebase.database().ref('/users/'+user.id+'/lifeFlg/').set(true)
         },
         customFilter(items, search, filter) {
             search = search.toString().toLowerCase()
