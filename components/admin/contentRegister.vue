@@ -56,11 +56,11 @@
                     <td class="text-xs-right">{{ row.item.type }}</td>
                     <td class="text-xs-right">{{ row.item.term }}</td>
                     <td class="text-xs-right">
-                            span( v-if="row.item.allNightFlg===true" style="color:red;") ○
+                            span( v-if="row.item.allNightFlg===1" style="color:red;") ○
                             span( v-else) ×
                     </td>
                     <td class="text-xs-right">
-                            span( v-if="row.item.attendFlg===true" style="color:red;") ○
+                            span( v-if="row.item.attendFlg===1" style="color:red;") ○
                             span(v-else) ×
                     </td>
                     <td class="text-xs-right">{{ row.item.resisterTime }}</td>
@@ -215,15 +215,17 @@ export default {
             // let time = moment()._d;
             // console.log(time);
         },
-        async sendMail(id, address) {
+        sendMail(id, address) {
             let sendMail = this.$firebase.functions().httpsCallable("sendMail");
-            await sendMail({destination: address, QRcode: id})
-            let newUsers = [...this.users];
-            let user = newUsers.find(x => x.id === id);
-            user.lifeFlg = true;
-            newUsers[user.id] = user;
-            this.users = [...newUsers];
-            this.$firebase.database().ref('/users/'+user.id+'/lifeFlg/').set(true)
+            sendMail({destination: address, QRcode: id}, (err) => {
+                if (err) return;
+                let newUsers = [...this.users];
+                let user = newUsers.find(x => x.id === id);
+                user.lifeFlg = true;
+                newUsers[user.id] = user;
+                this.users = [...newUsers];
+                this.$firebase.database().ref('/users/'+user.id+'/lifeFlg/').set(true)
+            })
         },
         customFilter(items, search, filter) {
             search = search.toString().toLowerCase()
