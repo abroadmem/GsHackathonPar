@@ -43,6 +43,9 @@
                 @click="addUser"
             ) ユーザー登録
 
+        // <template v-if="calendarFlg">
+        //     DaySpanVuetify
+        // </template>
 
         <template v-if="userResisterFlg">
             <v-data-table :headers="user_headers" :items="users" :search="search" :custom-filter="customFilter" class="elevation-1" hide-actions>
@@ -94,6 +97,8 @@
 </template>
 
 <script>
+import DaySpanVuetify from "dayspan-vuetify";
+
 function unixTime2ymd(intTime) {
   var d = new Date(intTime);
   var year = d.getFullYear();
@@ -127,6 +132,7 @@ const userData = (name, email, type, term, allNightFlg, attendFlg, lifeFlg) => {
 };
 
 export default {
+  components: [DaySpanVuetify],
   data() {
     return {
       user_headers: [

@@ -43,6 +43,9 @@
                 @click="addUser"
             ) ユーザー登録
 
+        // <template v-if="calendarFlg">
+        //     DaySpanVuetify
+        // </template>
 
         <template v-if="userResisterFlg">
             <v-data-table :headers="user_headers" :items="users" :search="search" :custom-filter="customFilter" class="elevation-1" hide-actions>
@@ -94,6 +97,8 @@
 </template>
 
 <script>
+import DaySpanVuetify from "dayspan-vuetify";
+
 function unixTime2ymd(intTime) {
   var d = new Date(intTime);
   var year = d.getFullYear();
@@ -127,6 +132,7 @@ const userData = (name, email, type, term, allNightFlg, attendFlg, lifeFlg) => {
 };
 
 export default {
+  components: [DaySpanVuetify],
   data() {
     return {
       user_headers: [
@@ -180,6 +186,7 @@ export default {
             });
           }
           this.users = users;
+          console.log(this.users);
         });
     },
     toggleCalendar() {
@@ -229,18 +236,21 @@ export default {
       // let time = moment()._d;
       // console.log(time);
     },
-    async sendMail(id, address) {
-        let sendMail = this.$firebase.functions().httpsCallable("sendMail");
-        await sendMail({ destination: address, QRcode: id })
+    sendMail(id, address) {
+      let sendMail = this.$firebase.functions().httpsCallable("sendMail");
+      sendMail({ destination: address, QRcode: id }, err => {
+        console.log(err);
+        if (err) return;
         let newUsers = [...this.users];
         let user = newUsers.find(x => x.id === id);
         user.lifeFlg = true;
         newUsers[user.id] = user;
         this.users = [...newUsers];
         this.$firebase
-        .database()
-        .ref("/users/" + user.id + "/lifeFlg/")
-        .set(true);
+          .database()
+          .ref("/users/" + user.id + "/lifeFlg/")
+          .set(true);
+      });
     },
     customFilter(items, search, filter) {
       search = search.toString().toLowerCase();

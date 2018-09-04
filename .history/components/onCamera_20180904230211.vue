@@ -44,9 +44,9 @@ export default {
       this.message = "起動中";
       this.Allnightflag = flag;
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-          this.message = "読み込み中" + event;
-        });
+        // navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        //   this.message = "読み込み中" + event;
+        // });
       }
     },
     onDecode(content) {

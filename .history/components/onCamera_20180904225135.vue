@@ -16,10 +16,10 @@
 
 <script>
 //ここでプラグイン読み込み
-import { QrcodeReader } from "vue-qrcode-reader";
+import { QrcodeReader } from 'vue-qrcode-reader'
 export default {
   components: {
-    qrReader: QrcodeReader
+    qrReader:QrcodeReader
   },
   data() {
     return {
@@ -28,9 +28,9 @@ export default {
       canvas: {},
       captures: [],
       dialog: false,
-      isCheck: false,
-      camerastatus: null,
-      Allnightflag: null
+      isCheck:false,
+      camerastatus:null,
+      Allnightflag:null
     };
   },
   methods: {
@@ -51,29 +51,24 @@ export default {
     },
     onDecode(content) {
       let userID = content;
-      this.$firebase
-        .database()
-        .ref("/users/" + userID + "/" + this.camerastatus + "/")
-        .set(this.Allnightflag);
+      this.$firebase.database().ref('/users/'+userID+'/'+this.camerastatus+'/').set(this.Allnightflag)
       let message;
-      if (this.camerastatus == "allNight" && this.Allnightflag)
-        message = "All Night申請を受け付けました！";
-      if (this.camerastatus == "allNight" && !this.Allnightflag)
-        message = "All Night退出を確認しました！";
-      if (this.camerastatus != "allNight") message = "確認しました！";
-      this.message = message;
-      this.isCheck = true;
-      setTimeout(() => {
-        this.dialog = false;
+      if(this.camerastatus =='allNight' && this.Allnightflag) message = 'All Night申請を受け付けました！'
+      if(this.camerastatus =='allNight' && !this.Allnightflag) message = 'All Night退出を確認しました！'
+      if(this.camerastatus !='allNight' ) message = '確認しました！';
+      this.message = message
+      this.isCheck = true
+      setTimeout( () => {
+        this.dialog =  false
       }, 3000);
-    }
+    },
   }
 };
 </script>
 
 <style>
-.qrcode-reader {
-  display: none;
+.qrcode-reader{
+    display: none
 }
 .check_mark {
   width: 80px;
@@ -86,8 +81,8 @@ button {
   margin-left: 15px;
 }
 
-.hide {
-  display: none;
+.hide{
+  display:none;
 }
 
 .sa-icon {
@@ -104,12 +99,11 @@ button {
 }
 
 .sa-icon.sa-success {
-  border-color: #4caf50;
+  border-color: #4CAF50;
 }
 
-.sa-icon.sa-success::before,
-.sa-icon.sa-success::after {
-  content: "";
+.sa-icon.sa-success::before, .sa-icon.sa-success::after {
+  content: '';
   -webkit-border-radius: 40px;
   border-radius: 40px;
   border-radius: 50%;
@@ -146,7 +140,7 @@ button {
 .sa-icon.sa-success .sa-placeholder {
   width: 80px;
   height: 80px;
-  border: 4px solid rgba(76, 175, 80, 0.5);
+  border: 4px solid rgba(76, 175, 80, .5);
   -webkit-border-radius: 40px;
   border-radius: 40px;
   border-radius: 50%;
@@ -296,7 +290,7 @@ button {
 
 .sa-icon.sa-success .sa-line {
   height: 5px;
-  background-color: #4caf50;
+  background-color: #4CAF50;
   display: block;
   border-radius: 2px;
   position: absolute;
@@ -355,4 +349,5 @@ button {
     -webkit-transform: rotate(-405deg);
   }
 }
+
 </style>
